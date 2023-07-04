@@ -75,16 +75,19 @@ def jatek():
     global kreditek, animacio_fut, animacio_vege
 
     if not animacio_fut:
-        animacio_vege = False
-        animacio_fut = True
-        jatek_gomb.config(state=tk.DISABLED)
+        if kreditek >= 10:
+            kreditek -= 10
+            kreditek_label.config(text=f"Kreditek: {kreditek}")
+            animacio_vege = False
+            animacio_fut = True
+            jatek_gomb.config(state=tk.DISABLED)
 
-        animacio_kovetkezo()
-        lbl1.after(animacio_ido, jatek_vege)  # Hozzáadott sor
-
+            animacio_kovetkezo()
+            lbl1.after(animacio_ido, jatek_vege)
+        else:
+            eredmeny_label.config(text="Nincs elég kredit a játékhoz.", fg="red")
     else:
         animacio_vege = True
-        jatek_vege()  # Hozzáadott sor
 
 
 def jatek_vege():
@@ -157,6 +160,7 @@ szoveg_label.pack(pady=10)
 mezok = tk.Frame(ablak)
 mezok.pack(pady=10)
 
+# kezdőképernyő
 kep1 = Image.open("arany.png")
 kep2 = Image.open("arany.png")
 kep3 = Image.open("arany.png")
@@ -182,7 +186,7 @@ lbl3.pack(side=tk.LEFT, padx=10)
 eredmeny_label = tk.Label(ablak, text="")
 eredmeny_label.pack(pady=10)
 
-# Kreditek számláló
+# Kreditek
 kreditek_label = tk.Label(ablak, text=f"Kreditek: {kreditek}")
 kreditek_label.pack(pady=10)
 
