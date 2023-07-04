@@ -10,12 +10,12 @@ nyeremenyek = {
     "hetes": 100,
     "csengo": 50,
     "cseresznye": 20,
-    "gyemant": 15,
+    "gyemant": 60,
     "eper": 10,
-    "arany": 5,
+    "arany": 90,
     "narancs": 30,
     "dinnye": 40,
-    "citrom": 1,
+    "citrom": 10,
     "medal": 70
 }
 
@@ -60,7 +60,7 @@ def jatek():
         # A győzelem ellenőrzése
         if szimbolum1 == szimbolum2 == szimbolum3:
             nyeremeny = 1000
-            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="green", font=("Arial", 12, "bold"))
+            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="green", font=("Arial", 15, "bold"))
             kreditek += nyeremeny
         elif szimbolum1 == szimbolum2 or szimbolum1 == szimbolum3 or szimbolum2 == szimbolum3:
             nyeremeny = nyeremenyek.get(szimbolum1, 0)  # Vagy nyeremenyek.get(szimbolum2) vagy nyeremenyek.get(szimbolum3)
@@ -68,9 +68,14 @@ def jatek():
 
             kreditek += nyeremeny
         else:
-            eredmeny_label.config(text="Nem nyertél.", fg="red")
+            eredmeny_label.config(text="Nem nyertél.", fg="red",font=("Arial", 15, "bold"))
 
         kreditek_label.config(text=f"Kreditek: {kreditek}")
+
+        # Kreditek ellenőrzése
+        if kreditek < 10:
+            jatek_gomb.config(state=tk.DISABLED,bg='grey')
+            eredmeny_label.config(text="Nincs elég kredit a játékhoz.", fg="red")
     else:
         eredmeny_label.config(text="Nincs elég kredit a játékhoz.", fg="red")
 
@@ -125,11 +130,12 @@ kreditek_label.pack(pady=10)
 gombok_frame = tk.Frame(ablak)
 gombok_frame.pack(pady=10)
 
-jatek_gomb = tk.Button(gombok_frame, text="JÁTÉK", command=jatek, bg="green", width=40, height=4)
-kilepes_gomb = tk.Button(gombok_frame, text="KILÉP", command=kilep, bg="red",height=4)
+jatek_gomb = tk.Button(gombok_frame, text="JÁTÉK", command=jatek, bg="green", width=40, height=4, activebackground="yellow")
+kilepes_gomb = tk.Button(gombok_frame, text="KILÉP", command=kilep, bg="#8B0000", height=4, activebackground="red")
 kilepes_gomb.pack(side=tk.LEFT, padx=10)
-jatek_gomb.pack(side=tk.LEFT, padx=10)
-jatek_gomb.pack(side=tk.LEFT, padx=10)
+
+if kreditek >= 10:
+    jatek_gomb.pack(side=tk.LEFT, padx=10)
 
 # Ablak megjelenítése
 ablak.mainloop()
