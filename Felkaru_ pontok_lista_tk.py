@@ -124,10 +124,17 @@ def jatek_vege():
         nyeremeny = 1000
         eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="green", font=("Arial", 15, "bold"))
         kreditek += nyeremeny
-    elif szimbolum1 == szimbolum2 or szimbolum1 == szimbolum3 or szimbolum2 == szimbolum3:
+    elif szimbolum1 == szimbolum2:
         nyeremeny = nyeremenyek.get(szimbolum1, 0)
         eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="orange", font=("Arial", 15, "bold"))
-
+        kreditek += nyeremeny
+    elif szimbolum1 == szimbolum3:
+        nyeremeny = nyeremenyek.get(szimbolum1, 0)
+        eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="orange", font=("Arial", 15, "bold"))
+        kreditek += nyeremeny
+    elif szimbolum2 == szimbolum3:
+        nyeremeny = nyeremenyek.get(szimbolum2, 0)
+        eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="orange", font=("Arial", 15, "bold"))
         kreditek += nyeremeny
     else:
         eredmeny_label.config(text="Nem nyertél.", fg="red", font=("Arial", 15, "bold"))
@@ -149,8 +156,17 @@ def kilep():
 # Főablak létrehozása
 ablak = tk.Tk()
 ablak.title("Félkarú rabló")
-ablak.minsize(width=700, height=300)
-ablak.maxsize(width=700, height=500)
+ablak.minsize(width=1000, height=600)
+ablak.maxsize(width=1000, height=600)
+
+
+# Pontok kép
+pontok_kep = Image.open("pontok.png")
+pontok_kep = pontok_kep.resize((200, 650))
+pontok_kep_tk = ImageTk.PhotoImage(pontok_kep)
+
+pontok_label = tk.Label(ablak, image=pontok_kep_tk)
+pontok_label.pack(side=tk.RIGHT, padx=10)
 
 # Tájékoztató szöveg
 szoveg_label = tk.Label(ablak, text="Kettő vagy Három azonos szimbólum nyer.")
@@ -158,7 +174,7 @@ szoveg_label.pack(pady=10)
 
 # Képmező a három véletlenszerű szimbólum megjelenítésére
 mezok = tk.Frame(ablak)
-mezok.pack(pady=10)
+mezok.pack(pady=20)
 
 # kezdőképernyő
 kep1 = Image.open("arany.png")
@@ -190,7 +206,8 @@ eredmeny_label.pack(pady=10)
 kreditek_label = tk.Label(ablak, text=f"Kreditek: {kreditek}")
 kreditek_label.pack(pady=10)
 
-
+elvalaszto_elem = tk.Frame(ablak, bg="gray", height=2)
+elvalaszto_elem.pack(fill=tk.X, padx=10, pady=35)
 
 # Gombok
 gombok_frame = tk.Frame(ablak)
