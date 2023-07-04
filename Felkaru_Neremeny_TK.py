@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
 import random
 from PIL import Image, ImageTk
 
@@ -11,13 +10,13 @@ nyeremenyek = {
     "hetes": 100,
     "csengo": 50,
     "cseresznye": 20,
-    "gyemant": 10,
-    "eper": 5,
-    "arany": 3,
-    "narancs": 2,
-    "dinnye": 1,
+    "gyemant": 15,
+    "eper": 10,
+    "arany": 5,
+    "narancs": 30,
+    "dinnye": 40,
     "citrom": 1,
-    "medal": 1
+    "medal": 70
 }
 
 # Kezdő kreditek
@@ -41,9 +40,9 @@ def jatek():
         kep3 = Image.open(f"{szimbolum3}.png")
 
         # Képek méretezése
-        kep1 = kep1.resize((100, 100))
-        kep2 = kep2.resize((100, 100))
-        kep3 = kep3.resize((100, 100))
+        kep1 = kep1.resize((150, 150))
+        kep2 = kep2.resize((150, 150))
+        kep3 = kep3.resize((150, 150))
 
         # Képek megjelenítése az eredeti helyén
         kep1_tk = ImageTk.PhotoImage(kep1)
@@ -60,19 +59,20 @@ def jatek():
 
         # A győzelem ellenőrzése
         if szimbolum1 == szimbolum2 == szimbolum3:
-            nyeremeny = nyeremenyek.get(szimbolum1, 0)
-            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!")
+            nyeremeny = 1000
+            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="green", font=("Arial", 12, "bold"))
             kreditek += nyeremeny
         elif szimbolum1 == szimbolum2 or szimbolum1 == szimbolum3 or szimbolum2 == szimbolum3:
             nyeremeny = nyeremenyek.get(szimbolum1, 0)  # Vagy nyeremenyek.get(szimbolum2) vagy nyeremenyek.get(szimbolum3)
-            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!")
+            eredmeny_label.config(text=f"Nyertél {nyeremeny} kreditet!", fg="orange", font=("Arial", 15, "bold"))
+
             kreditek += nyeremeny
         else:
-            eredmeny_label.config(text="Nem nyertél.")
+            eredmeny_label.config(text="Nem nyertél.", fg="red")
 
         kreditek_label.config(text=f"Kreditek: {kreditek}")
     else:
-        messagebox.showinfo("VÉGE", "Nincs elég kredit a játékhoz.")
+        eredmeny_label.config(text="Nincs elég kredit a játékhoz.", fg="red")
 
 
 def kilep():
@@ -82,10 +82,10 @@ def kilep():
 # Főablak létrehozása
 ablak = tk.Tk()
 ablak.title("Félkarú rabló")
-ablak.minsize(width=600,height=400)
+ablak.minsize(width=700, height=300)
 
 # Tájékoztató szöveg
-szoveg_label = tk.Label(ablak, text="Három azonos szimbólum nyer.")
+szoveg_label = tk.Label(ablak, text="Kettő vagy Három azonos szimbólum nyer.")
 szoveg_label.pack(pady=10)
 
 # Képmező a három véletlenszerű szimbólum megjelenítésére
@@ -96,9 +96,9 @@ kep1 = Image.open("arany.png")
 kep2 = Image.open("arany.png")
 kep3 = Image.open("arany.png")
 
-kep1 = kep1.resize((100, 100))
-kep2 = kep2.resize((100, 100))
-kep3 = kep3.resize((100, 100))
+kep1 = kep1.resize((150, 150))
+kep2 = kep2.resize((120, 150))
+kep3 = kep3.resize((150, 150))
 
 kep1_tk = ImageTk.PhotoImage(kep1)
 kep2_tk = ImageTk.PhotoImage(kep2)
@@ -125,11 +125,11 @@ kreditek_label.pack(pady=10)
 gombok_frame = tk.Frame(ablak)
 gombok_frame.pack(pady=10)
 
-jatek_gomb = tk.Button(gombok_frame, text="JÁTÉK", command=jatek)
-jatek_gomb.pack(side=tk.LEFT, padx=10)
-
-kilepes_gomb = tk.Button(gombok_frame, text="KILÉP", command=kilep)
+jatek_gomb = tk.Button(gombok_frame, text="JÁTÉK", command=jatek, bg="green", width=40, height=4)
+kilepes_gomb = tk.Button(gombok_frame, text="KILÉP", command=kilep, bg="red",height=4)
 kilepes_gomb.pack(side=tk.LEFT, padx=10)
+jatek_gomb.pack(side=tk.LEFT, padx=10)
+jatek_gomb.pack(side=tk.LEFT, padx=10)
 
 # Ablak megjelenítése
 ablak.mainloop()
